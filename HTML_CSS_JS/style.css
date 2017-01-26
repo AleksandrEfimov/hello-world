@@ -1,0 +1,24 @@
+.green-text {color: green;}
+#logo { width: 100px; }
+
+#Wellcom { 	
+ text-align: center; /* Выравнивание приветствия*/
+ background: #f0f0f0;
+ }
+
+.container  {position: relative;} /* Относительное позиционирование */
+.container DIV {position: absolute;}
+
+.centr_col { left:150px; right: 200px; background: #f0f0f0; }
+
+.left_col { width: 150px;  background: #7895A4;
+	a { color: red; }
+}
+
+.right_col { width: 200; right: 0; }
+
+
+
+.red_text { color: red; }
+.phone { color: purple}
+	

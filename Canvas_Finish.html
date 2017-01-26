@@ -1,0 +1,162 @@
+<canvas id= "canvas"
+		width="300"
+		height="400"
+		style="background-color: #abcdef">
+</canvas>
+
+<!-- Массив масивов
+
+   j	[0] 	[1] 	[2] 	[3]	box = Array();
+	 
+[x][y]	[0][1] 	[0][1] 	[0][1] 	[x=2][y=3]
+
+	 
+-->
+
+
+
+<script>
+		
+		var canvas;
+		var context;
+		var delta = 10;
+		
+		var carx = 175;
+		var cary = 100;
+		var carw = 10;
+		var carh = 40;
+		var carc = "green";
+		
+		var boxw = 10;
+		var boxh = 10;
+		var boxc = "black";
+		var box = Array();
+
+		var level = 0;
+		
+		function init () // ! работа в canvas
+		{
+			canvas = document.getElementById ("canvas"); // регистрируем объект canvas в области JS
+			context = canvas.getContext ("2d"); // рабочая область 
+			cary = canvas.height - carh - delta; // машина располагется внизу	
+		}
+		
+		function showCar() // рисуем машину
+		{
+			context.fillStyle = carc;
+			context.fillRect (carx,cary,carw,carh);
+		}
+		function showBox() 	
+		{
+			context.fillStyle = boxc;
+			for( j =0; j<box.length; j++)
+				context.fillRect (box[j][0],box[j][1],boxw,boxh);
+		}
+		
+		function addBox() // ! добавление box
+		{		
+			level ++; 
+			if (Math.random()*10000 > level) // ! регулировка количества новых box в 
+			 return; 						 // зависимости от уровня level
+			 
+			 var x = Math.random () * (canvas.width - boxw);	// ! [0...1] * "Порядок числа"
+			 
+			 var y = -boxh;// ! рождение за границей Math.random() * (canvas.height - boxh);
+			 box.push([x, y]);  // добавление в массив
+		}
+		function downBox() // ! движение box вниз
+		{
+			for (j=0; j< box.length; j++) // проходим по массиву
+				if (box[j][1] < canvas.height) // ? box в canvas ?
+					box[j][1]+=2; // ! скорость движения box изменяется по оси Y
+				else
+					box.splice (j,1); // ! удаляем элемент
+		}
+		function cls() // очистка экрана по координатам canvas от и до
+		{
+			context.clearRect (0,0,canvas.width, canvas.height);
+		}
+		
+	
+		function timer()
+		{	
+			// рисуем
+			addBox();	// создание box`s
+			downBox();	// двигаем - изменяем координаты box`s 
+			cls();   // стираем следы  
+			showBox();	// отрисовываем box`s
+			showCar();	// отрисовываем car
+			// проверяем
+			checkCrash();	// на столкновение 
+			document.getElementById("level").value = level; // текущий уровень
+		}
+		
+		function checkCrash ()
+		{
+			for (j = 0; j < box.length; j ++) // !! проходим по массиву
+				if ( isCrash ( box[j][0], box[j][1] )) // передача координат каждого box в проверку
+				{  // есть столкновение
+					gameOver();	
+					breake; 
+				}
+		}
+		function gameOver()
+		{
+			alert ("gameOver, result: "+level);
+					clearInterval(timerId); // тормозит setInterval 
+		}
+		
+		function moveCar (e) // управление от мыши
+		{
+			var rect = canvas.getBoundingClientRect();
+			var x = e.clientX - rect.left - carw/2;
+			if(x < 0)
+				carx = 0;
+			else if (x > canvas.width - carw )
+				carx = canvas.width - carw;
+			else 
+				carx = x;
+			document.getElementById("debug").value = carx;
+			
+		}
+		function isInside(x, y) // лаборант - возврат оценки соприкосновения объектов
+		{
+			return (x >= carx && x <= carx +carw && // сравнение граничных точек box`s
+				y >= cary && y <= cary +carh);		// c диапазон граничных точек авто
+		}
+		function isCrash(bx,by) // лаборатория
+		{
+			if (by+boxh < cary )
+				return false; 
+			if 	(isInside (bx,by) ||  // передача лаборант
+				isInside (bx+boxw, by) ||
+				isInside (bx, by+boxh) ||
+				isInside (bx + boxw, by +boxh))
+				return true; // все хорошо, столкновение есть 
+			else 
+				return false;
+		}
+		
+		
+		init();
+		
+		var timerId = setInterval (timer, 10); // число означает периодичность вызова timer
+		
+		document.addEventListener('mousemove', moveCar, false); // подписка на события мыши
+		
+		function reloadPage() // перезагрузка страницы
+		{
+		location.reload();	
+		}
+		
+		
+</script>
+
+	
+
+
+<br><br>
+
+<input type="text" id = "level" value=""/>
+<br>
+<input type="submit" id="reload" value="Повторим?" onclick="reloadPage()" />

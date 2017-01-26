@@ -1,0 +1,102 @@
+<html>
+	<head>
+		<title>CLear_fields</title>
+	<head>
+	<script>
+		
+		var count = 0;
+		function did (id)
+		{
+			return document.getElementById(id);
+		}
+		function turnxy(x,y)
+		{
+			if (x<1 || x>5 || y<1|| y>5) 
+				return;
+			
+		did ("b"+x+y).checked = 
+	  ! did ("b"+x+y).checked ;
+	  
+		}
+		function turn (x,y)
+		{
+			turnxy(x-1,y);
+			turnxy(x+1,y);
+			turnxy(x,y-1);
+			turnxy(x,y+1);
+			count++;
+			isEmpty();
+			
+		}
+		function clearAll ()
+		{
+			for (var x = 1; x<=5; x ++)
+					for ( var y = 1; y<=5; y ++)
+						did ("b"+x+y).checked=false;
+		}
+		function level1 ()
+		{
+			clearAll ();
+			did ("b32").checked = true;
+			did ("b34").checked = true;
+		}
+		function level2 ()
+		{
+			clearAll ();
+			did ("b32").checked = true;
+			did ("b34").checked = true;
+			did ("b23").checked = true;
+			did ("b43").checked = true;
+			//did ("b33").checked = true; // для быстрой проверки
+			
+		}
+		function isEmpty()
+		{
+			for (var x=1; x<=5;x++)
+				for (var y=1; y<=5;y++)
+					if(did ("b"+x+""+y).checked)
+						return;
+		alert("You are win! On attempt №"+count);
+		level1();	
+		}	
+	</script>
+	
+	<body>
+		<input type="checkbox" id="b11" onchange="turn(1,1)" />
+		<input type="checkbox" id="b12" onchange="turn(1,2)" />
+		<input type="checkbox" id="b13" onchange="turn(1,3)" />
+		<input type="checkbox" id="b14" onchange="turn(1,4)" />
+		<input type="checkbox" id="b15" onchange="turn(1,5)" />
+		<br>
+		<input type="checkbox" id="b21" onchange="turn(2,1)" />
+		<input type="checkbox" id="b22" onchange="turn(2,2)" />
+		<input type="checkbox" id="b23" onchange="turn(2,3)" />
+		<input type="checkbox" id="b24" onchange="turn(2,4)" />
+		<input type="checkbox" id="b25" onchange="turn(2,5)" />
+		<br>
+		<input type="checkbox" id="b31" onchange="turn(3,1)" />
+		<input type="checkbox" id="b32" onchange="turn(3,2)" />
+		<input type="checkbox" id="b33" onchange="turn(3,3)" />
+		<input type="checkbox" id="b34" onchange="turn(3,4)" />
+		<input type="checkbox" id="b35" onchange="turn(3,5)" />
+		<br>
+		<input type="checkbox" id="b41" onchange="turn(4,1)" />
+		<input type="checkbox" id="b42" onchange="turn(4,2)" />
+		<input type="checkbox" id="b43" onchange="turn(4,3)" />
+		<input type="checkbox" id="b44" onchange="turn(4,4)" />
+		<input type="checkbox" id="b45" onchange="turn(4,5)" />
+		<br>
+		<input type="checkbox" id="b51" onchange="turn(5,1)" />
+		<input type="checkbox" id="b52" onchange="turn(5,2)" />
+		<input type="checkbox" id="b53" onchange="turn(5,3)" />
+		<input type="checkbox" id="b54" onchange="turn(5,4)" />
+		<input type="checkbox" id="b55" onchange="turn(5,5)" />
+		<br>
+		<input type="submit" value="Level 1" onclick="level1()" />
+		<input type="submit" value="Level 1" onclick="level2()" />
+		
+		<script>
+			level1 ();	
+		</script>
+	</body>
+</html>

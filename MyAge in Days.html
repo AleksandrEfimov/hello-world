@@ -1,0 +1,85 @@
+﻿<html>
+	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Cколько мне дней?</title>
+	<head>
+	<script>
+	
+		var today = new Date();
+		var birthday;
+		
+		function FBirthday()
+		{
+			
+			var dateClnd_bir = document.getElementById("calnd_bir").value;
+			if(dateClnd_bir)
+			{
+				
+				birthday = new Date(dateClnd_bir);
+				alert("dateClnd_bir: "+dateClnd_bir+"birthday: "+birthday);
+			}
+			else
+			{
+				alert("Доброго здоровьица! Введите дату своего рождения!");
+			}
+		}
+		
+		function date_inst()
+		{
+			FBirthday();
+			
+			var days = 0;
+				while (birthday < today)
+				{	
+					// считает на день больше если время рождения 10:00 а время today 15:00
+					birthday.setDate(birthday.getDate()+1);
+					days ++;
+					if(birthday.getDate()+1 > today){days --;}
+					
+				}
+				document.getElementById("datetxt").value = days;
+			
+			days=0;
+			birthday=0;
+		}
+		
+		function DateOfDay()
+		{
+			FBirthday();
+			var nDay = document.getElementById("numbDay").value;
+			var days = 0;
+			
+			while( nDay > days)
+			{ 
+				days ++;
+				birthday.setDate(birthday.getDate()+1);
+			}
+			
+			document.getElementById("calnd_2").value=birthday;
+		}
+		
+		
+		function reloadPage()
+		{
+			location.reload();
+		}		
+		
+	</script>
+	
+	<body>
+	<h1>Рассчет прожитых дней</h1>
+	<br>
+	<input type="date" placeholder="Введите ДР" id="calnd_bir"  ><br>
+		(Если у вас FF: mm,dd,year )<br> (Если FF и IE - скачайте нормальный браузер)<div>
+	<input type="submit" id="setDate" value="Сосчитать" onclick="date_inst()"></div>
+	<br>
+	<input type="text" id="datetxt" value=""><br>
+	<input type="submit" id="reload" onclick="reloadPage()" value="Обновить">
+	<h2>Узнать дату дня жизни</h2><div>
+	<input type=text  placeholder="Введите номер дня: " id="numbDay" value=""><br>
+	<input type=submit value="Вычислить" onclick="DateOfDay()"><br>
+	<output type="date"  id="calnd_2" value="" >
+	</div>
+	</body>
+</html>
